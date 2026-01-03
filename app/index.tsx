@@ -1,9 +1,11 @@
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 export default function Index() {
   return (
-    <Text className="font-bold bg-red-500 p-2 rounded-md text-red-300">
-      Hello World !! NativeWind
-    </Text>
+    <View>
+      <Text className="text-wrap rounded-md bg-red-500 p-2 px-2 font-bold text-red-300">
+        Hello World !! NativeWind
+      </Text>
+    </View>
   );
 }
