@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "nanum",
-    "slug": "nanum",
+    "name": "cops and robbers",
+    "slug": "cops-and-robbers",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "nanum",
+    "scheme": "cops-and-robbers",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
