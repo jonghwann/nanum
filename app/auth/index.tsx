@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 import Screen from '@/components/layout/screen';
@@ -5,23 +6,36 @@ import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import Title from '@/components/ui/title';
 import useSignInWithOtp from '@/hooks/mutations/use-sign-in-with-otp';
+import useVerifyOtp from '@/hooks/mutations/use-verify-otp';
 import { toE164 } from '@/utils/phone';
 import { toast } from '@/utils/toast';
 
-type Field = 'phoneNumber' | 'verificationCode';
+type Field = 'phone' | 'code';
 
 export default function Index() {
   const [values, setValues] = useState<Record<Field, string>>({
-    phoneNumber: '',
-    verificationCode: '',
+    phone: '',
+    code: '',
   });
 
-  const { mutate: signInWithOtp } = useSignInWithOtp({
+  const [isOtpRequested, setIsOtpRequested] = useState(false);
+
+  const { mutate: signInWithOtp, isPending: isSignInWithOtpPending } = useSignInWithOtp({
     onSuccess: () => {
-      toast.success('인증번호를 전송했어요');
+      setIsOtpRequested(true);
+      toast.success('인증번호가 전송되었습니다');
     },
     onError: () => {
-      toast.error('인증번호 전송에 실패했어요');
+      toast.error('인증번호 전송에 실패했습니다');
+    },
+  });
+
+  const { mutate: verifyOtp, isPending: isVerifyOtpPending } = useVerifyOtp({
+    onSuccess: () => {
+      router.replace('/auth/sign-up');
+    },
+    onError: () => {
+      toast.error('인증번호를 다시 확인해주세요');
     },
   });
 
@@ -30,7 +44,11 @@ export default function Index() {
   };
 
   const handleSignInWithOtpPress = async () => {
-    signInWithOtp(toE164(values.phoneNumber));
+    signInWithOtp(toE164(values.phone));
+  };
+
+  const handleVerifyOtpPress = async () => {
+    verifyOtp({ phone: toE164(values.phone), code: values.code });
   };
 
   return (
@@ -42,26 +60,36 @@ export default function Index() {
           <View className="flex-row gap-4">
             <Input
               className="flex-1"
-              value={values.phoneNumber}
+              value={values.phone}
               placeholder="01012345678"
               maxLength={11}
               keyboardType="number-pad"
               autoFocus
-              onChangeText={(text) => handleChange('phoneNumber', text)}
+              onChangeText={(text) => handleChange('phone', text)}
             />
-            <Button title="번호 요청" className="w-32" onPress={handleSignInWithOtpPress} />
+            <Button
+              title={isOtpRequested ? '재전송' : '번호 요청'}
+              isLoading={isSignInWithOtpPending}
+              className="w-32"
+              onPress={handleSignInWithOtpPress}
+            />
           </View>
 
           <Input
-            value={values.verificationCode}
+            value={values.code}
             placeholder="인증번호를 입력하세요."
             maxLength={6}
             keyboardType="number-pad"
-            onChangeText={(text) => handleChange('verificationCode', text)}
+            onChangeText={(text) => handleChange('code', text)}
           />
         </View>
 
-        <Button title="다음" />
+        <Button
+          title="다음"
+          disabled={!isOtpRequested}
+          isLoading={isVerifyOtpPending}
+          onPress={handleVerifyOtpPress}
+        />
       </View>
     </Screen>
   );

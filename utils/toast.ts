@@ -8,6 +8,9 @@ const showToast = (type: ToastType, message: string) => {
     text1: message,
     position: 'top',
     visibilityTime: 2000,
+    text1Style: {
+      fontSize: 16,
+    },
   });
 };
 
