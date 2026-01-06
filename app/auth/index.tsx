@@ -6,6 +6,7 @@ import Input from '@/components/ui/input';
 import Title from '@/components/ui/title';
 import useSignInWithOtp from '@/hooks/mutations/use-sign-in-with-otp';
 import { toE164 } from '@/utils/phone';
+import { toast } from '@/utils/toast';
 
 type Field = 'phoneNumber' | 'verificationCode';
 
@@ -15,7 +16,14 @@ export default function Index() {
     verificationCode: '',
   });
 
-  const { mutate: signInWithOtp } = useSignInWithOtp();
+  const { mutate: signInWithOtp } = useSignInWithOtp({
+    onSuccess: () => {
+      toast.success('인증번호를 전송했어요');
+    },
+    onError: () => {
+      toast.error('인증번호 전송에 실패했어요');
+    },
+  });
 
   const handleChange = (field: Field, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));

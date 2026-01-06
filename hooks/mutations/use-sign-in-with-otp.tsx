@@ -1,14 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import { signInWithOtp } from '@/api/auth';
+import type { UseMutationCallbacks } from '@/types/mutation';
 
-export default function useSignInWithOtp() {
+export default function useSignInWithOtp(callbacks?: UseMutationCallbacks) {
   return useMutation({
     mutationFn: signInWithOtp,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      callbacks?.onSuccess?.();
     },
     onError: (error) => {
-      console.log(error);
+      callbacks?.onError?.(error);
     },
   });
 }
