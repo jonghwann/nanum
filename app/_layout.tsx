@@ -25,6 +25,7 @@ export default function RootLayout() {
             options={{
               title: '주소 검색',
               headerShown: true,
+              headerShadowVisible: false,
               headerBackButtonDisplayMode: 'minimal',
             }}
           />

@@ -35,7 +35,7 @@ export default function SignUp() {
   };
 
   return (
-    <Screen>
+    <Screen hasHeader>
       <View className="gap-6">
         <View className="flex-row gap-4">
           <Input placeholder="이름" autoFocus className="flex-1" onChangeText={handleChangeText} />

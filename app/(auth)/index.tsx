@@ -51,7 +51,7 @@ export default function Index() {
   };
 
   return (
-    <Screen>
+    <Screen hasHeader>
       <View className="gap-6">
         <View className="gap-4">
           <View className="flex-row gap-4">
