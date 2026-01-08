@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { ActivityIndicator } from 'react-native';
+import { BACK_SCREEN_OPTIONS, BACK_SCREENS } from '@/constants/screens';
 import useMe from '@/hooks/queries/use-me';
 
 export default function RootNavigator() {
@@ -17,15 +18,9 @@ export default function RootNavigator() {
         <Stack.Screen name="(tabs)" />
       </Stack.Protected>
 
-      <Stack.Screen
-        name="address-search"
-        options={{
-          title: '주소 검색',
-          headerShown: true,
-          headerShadowVisible: false,
-          headerBackButtonDisplayMode: 'minimal',
-        }}
-      />
+      {BACK_SCREENS.map(({ name, options }) => (
+        <Stack.Screen key={name} name={name} options={{ ...BACK_SCREEN_OPTIONS, ...options }} />
+      ))}
     </Stack>
   );
 }

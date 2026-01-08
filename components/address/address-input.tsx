@@ -9,7 +9,7 @@ interface AddressInputProps {
 
 export default function AddressInput({ value, className }: AddressInputProps) {
   return (
-    <Link href="/address-search" asChild>
+    <Link href="/(screen)/address-search" asChild>
       <Pressable className={className}>
         <Input value={value} placeholder="주소" editable={false} pointerEvents="none" />
       </Pressable>

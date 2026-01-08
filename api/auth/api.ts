@@ -48,6 +48,10 @@ export async function signUp(params: SignUpRequest) {
 
   const { name, gender, birthDate, region1, region2, region3, hCode } = params;
 
+  if (!name || !gender || !birthDate || !region1 || !region2 || !region3 || !hCode) {
+    throw new Error();
+  }
+
   const { data, error } = await supabase.from('profiles').upsert({
     id: user.id,
     name,

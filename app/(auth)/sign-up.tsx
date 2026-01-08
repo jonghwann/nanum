@@ -27,7 +27,7 @@ export default function SignUp() {
 
   const { region1, region2, region3, hCode } = useAddress();
 
-  const { mutate: signUp } = useSignUp({
+  const { mutate: signUp, isPending: isSignUpPending } = useSignUp({
     onSuccess: () => {
       router.replace('/(tabs)');
     },
@@ -36,16 +36,11 @@ export default function SignUp() {
     },
   });
 
-  const handleChangeText = (text: string) => {
-    setValues((prev) => ({ ...prev, name: text }));
-  };
-
-  const handleSegmentChange = (value: string) => {
-    setValues((prev) => ({ ...prev, gender: value }));
-  };
-
-  const handleBirthDateChange = (date: Date) => {
-    setValues((prev) => ({ ...prev, birthDate: date }));
+  const handleChange = <K extends keyof typeof initialValues>(
+    field: K,
+    value: (typeof initialValues)[K],
+  ) => {
+    setValues((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSignUpPress = () => {
@@ -56,11 +51,16 @@ export default function SignUp() {
     <Screen hasHeader>
       <View className="gap-6">
         <View className="flex-row gap-4">
-          <Input placeholder="이름" autoFocus className="flex-1" onChangeText={handleChangeText} />
+          <Input
+            placeholder="이름"
+            autoFocus
+            className="flex-1"
+            onChangeText={(text) => handleChange('name', text)}
+          />
           <Segment
             options={segmentOptions}
             selectedValue={values.gender}
-            onChange={handleSegmentChange}
+            onChange={(value) => handleChange('gender', value)}
             className="w-[35%]"
           />
         </View>
@@ -68,13 +68,13 @@ export default function SignUp() {
         <View className="flex-row gap-4">
           <DateTimePickerInput
             date={values.birthDate}
-            onConfirm={handleBirthDateChange}
+            onConfirm={(date) => handleChange('birthDate', date)}
             className="w-[40%]"
           />
           <AddressInput value={region3} className="flex-1" />
         </View>
 
-        <Button title="가입하기" onPress={handleSignUpPress} />
+        <Button title="가입하기" isLoading={isSignUpPending} onPress={handleSignUpPress} />
       </View>
     </Screen>
   );
