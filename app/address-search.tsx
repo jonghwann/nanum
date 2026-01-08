@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import AddressListItem from '@/components/address/address-list-item';
 import Screen from '@/components/layout/screen';
 import Input from '@/components/ui/input';
-import { useSearchAddress } from '@/hooks/queries/use-search-address';
+import useSearchAddress from '@/hooks/queries/use-search-address';
 import useDebounce from '@/hooks/use-debounce';
 
 export default function AddressSearch() {

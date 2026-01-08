@@ -30,7 +30,7 @@ export default function Index() {
 
   const { mutate: verifyOtp, isPending: isVerifyOtpPending } = useVerifyOtp({
     onSuccess: () => {
-      router.replace('/sign-up');
+      router.replace('/(auth)/sign-up');
     },
     onError: () => {
       toast.error('인증번호를 다시 확인해주세요');
@@ -42,8 +42,7 @@ export default function Index() {
   };
 
   const handleSignInWithOtpPress = async () => {
-    router.replace('/sign-up');
-    // signInWithOtp(toE164(values.phone));
+    signInWithOtp(toE164(values.phone));
   };
 
   const handleVerifyOtpPress = async () => {

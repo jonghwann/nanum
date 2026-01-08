@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 import AddressInput from '@/components/address/address-input';
@@ -6,13 +7,14 @@ import Button from '@/components/ui/button';
 import DateTimePickerInput from '@/components/ui/date-time-picker-input';
 import Input from '@/components/ui/input';
 import Segment from '@/components/ui/segment';
+import useSignUp from '@/hooks/mutations/use-sign-up';
 import { useAddress } from '@/store/address';
+import { toast } from '@/utils/toast';
 
 const initialValues = {
   name: '',
   gender: 'male',
   birthDate: new Date(),
-  address: '',
 };
 
 const segmentOptions = [
@@ -24,6 +26,15 @@ export default function SignUp() {
   const [values, setValues] = useState(initialValues);
 
   const { region1, region2, region3, hCode } = useAddress();
+
+  const { mutate: signUp } = useSignUp({
+    onSuccess: () => {
+      router.replace('/(tabs)');
+    },
+    onError: () => {
+      toast.error('회원가입에 실패했습니다');
+    },
+  });
 
   const handleChangeText = (text: string) => {
     setValues((prev) => ({ ...prev, name: text }));
@@ -38,7 +49,7 @@ export default function SignUp() {
   };
 
   const handleSignUpPress = () => {
-    console.log(values);
+    signUp({ ...values, region1, region2, region3, hCode });
   };
 
   return (
