@@ -3,7 +3,7 @@ import { TextInput, type TextInputProps, View } from 'react-native';
 import { cn } from '@/lib/cn';
 
 interface InputProps extends TextInputProps {
-  icon?: { name: React.ComponentProps<typeof Ionicons>['name']; size?: number; color?: string };
+  icon?: React.ComponentProps<typeof Ionicons>;
   className?: string;
   inputClassName?: string;
 }
@@ -14,8 +14,8 @@ export default function Input({ icon, className, inputClassName, ...props }: Inp
       {icon && <Ionicons {...icon} />}
 
       <TextInput
-        className={cn('flex-1 text-2xl placeholder:text-gray-400', icon && 'ml-2', inputClassName)}
         {...props}
+        className={cn('flex-1 text-2xl placeholder:text-gray-400', icon && 'ml-2', inputClassName)}
       />
     </View>
   );

@@ -1,17 +1,14 @@
-import { Pressable, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import Screen from '@/components/layout/screen';
-import { supabase } from '@/lib/supabase';
+import Icon from '@/components/ui/icon';
 
 export default function Index() {
-  const handleSignOutPress = async () => {
-    await supabase.auth.signOut();
-  };
-
   return (
     <Screen>
-      <Pressable onPress={handleSignOutPress}>
-        <Text>로그아웃</Text>
-      </Pressable>
+      <View className="flex-row items-center">
+        <Text className="font-bold text-3xl">정왕2동</Text>
+        <Icon name="chevron-forward" size={20} />
+      </View>
     </Screen>
   );
 }

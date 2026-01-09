@@ -33,17 +33,17 @@ export default function Button({
   return (
     <Pressable
       disabled={isDisabled}
+      {...props}
       className={cn(
         'h-14 items-center justify-center rounded-lg bg-primary px-4',
         isDisabled && 'opacity-50',
         className,
       )}
-      {...props}
     >
       {isLoading ? (
         <ActivityIndicator color="white" {...indicatorProps} />
       ) : (
-        <Text className={cn('font-semibold text-2xl text-white', textClassName)} {...textProps}>
+        <Text {...textProps} className={cn('font-semibold text-2xl text-white', textClassName)}>
           {title}
         </Text>
       )}
