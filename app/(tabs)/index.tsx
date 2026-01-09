@@ -1,14 +1,15 @@
-import { Text, View } from 'react-native';
+import { router } from 'expo-router';
 import Screen from '@/components/layout/screen';
-import Icon from '@/components/ui/icon';
+import Title from '@/components/ui/title';
 
 export default function Index() {
   return (
     <Screen>
-      <View className="flex-row items-center">
-        <Text className="font-bold text-3xl">정왕2동</Text>
-        <Icon name="chevron-forward" size={20} />
-      </View>
+      <Title
+        title="정왕2동"
+        icon={{ name: 'chevron-forward', size: 20 }}
+        onPress={() => router.push('/address-search')}
+      />
     </Screen>
   );
 }
